@@ -1,4 +1,4 @@
-graft self_update
+graft selfupdate
 include README.rst
 include LICENSE.txt
 recursive-exclude self_update *.pyc

@@ -7,7 +7,7 @@ from setuptools.command.install import install
 from codecs import open
 from os import path
 
-import self_update
+import selfupdate
 
 if sys.version_info < (2, 6):
     print("THIS MODULE REQUIRES PYTHON 2.6, 2.7, OR 3.3+. YOU ARE CURRENTLY USING PYTHON {0}".format(sys.version))
@@ -20,17 +20,17 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name="self_update",
-    version=self_update.__version__,
+    name="selfupdate",
+    version=selfupdate.__version__,
 
     description="Python project that allow scripts to easily and safely update themselves if they are in a git repo",
     long_description=long_description,
 
     url="https://github.com/beeedy/SelfUpdate",
-    author=self_update.__author__,
-    author_email=self_update.__email__,
+    author=selfupdate.__author__,
+    author_email=selfupdate.__email__,
 
-    license=self_update.__license__,
+    license=selfupdate.__license__,
 
     classifiers=[
         #   3 - Alpha
