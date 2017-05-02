@@ -50,5 +50,5 @@ setup(
 
     keywords='git autoupdate selfupdate update',
     packages=find_packages(exclude=[]),
-    install_requires=[],
+    install_requires=['gitpython'],
 )
