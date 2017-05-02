@@ -1,0 +1,4 @@
+graft SelfUpdate
+include README.rst
+include LICENSE.txt
+recursive-exclude SelfUpdate *.pyc
