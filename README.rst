@@ -57,4 +57,7 @@ This really is not anything too fancy, but it can help to ease the headache of t
 
 2. By including this file in your repo it could be possible that it get pushed up to the remote repo and subsequently pulled down by scripts using selfupdate. This could lead to a situation where a script would no longer be self updating and need direct interaction. Luckly, the selfupdate module attempts to reduce this risk as much as possible by throwing an error if a ``.devenv`` file exists but it is not included in the ``.gitignore``. So the 2nd and final step to setup a development environment is just to add ``.devenv`` to the ``.gitignore``
   
-  
+Authentication
+==============
+
+Authentication is still in its infancy and rudamentary at best. If a pull or push fails it is most likely because of an error with the authentication. Future plans are to address this and provide multiple pays for a user to authenticate the git actions.
