@@ -159,7 +159,7 @@ def __get_file_diffs(repo, verbose=False):
 		__print(verbose, msg)
 	return diff
 
-def pull(force=False, check_dev=True, verbose=False):
+def pull(force=False, check_dev=True, username=None, password=None, verbose=False):
 	'''
 	This function will attempt to pull any remote changes down to 
 	the repository that the calling script is contained in. If 
@@ -180,9 +180,20 @@ def pull(force=False, check_dev=True, verbose=False):
 	'''
 	repo_path = __find_repo()
 	repo = git.Repo(repo_path)
+
+	repo_url = ""
+	if username is not None and password is not None:
+			# user is attempting to send credentials with the push, fabricate URL
+			print str(repo.git.remote("-v")).splitlines()
+			repo_url = str(repo.git.remote("-v")).splitlines()[0][7:-8].split("//")[1]
+			repo_url = "https://{}:{}@{}".format(username, password, repo_url)
+			
 	if not force:
 		try:
-			resp = str(repo.git.pull()).splitlines()
+			if repo_url is "":
+				resp = str(repo.git.pull()).splitlines()
+			else:
+				resp = str(repo.git.pull(repo_url)).splitlines()
 			if resp[0] == "Already up-to-date.":
 				__print(verbose, "Repository is already up to date.")
 				return (False, [])
@@ -195,6 +206,7 @@ def pull(force=False, check_dev=True, verbose=False):
 			err_list = str(err).splitlines()
 
 			# this is a poor and rudamentary way to tell if there was a specific error TODO: fix
+			print err_list
 			if err_list[3] == "  stderr: 'error: Your local changes to the following files would be overwritten by merge:":
 				files = [a[1:] for a in err_list[4:-2]]
 				__print("Pull failed. Files with conflicts:" + "\n  ".join(files))
@@ -218,10 +230,10 @@ def pull(force=False, check_dev=True, verbose=False):
 			return (False, [])
 
 		# fetch all
-		fetch_resp = str(repo.git.fetch("--all"))
+		fetch_resp = str(repo.git.fetch("--all", repo_url))
 		__print(verbose, "Fetched any and all changes with response: {}".format(fetch_resp))
 		# reset
-		reset_resp = str(repo.git.reset("--hard", "origin/{}".format(branch)))
+		reset_resp = str(repo.git.reset("--hard", "origin/{}".format(branch), repo_url))
 		__print(verbose, "Completed hard pull with response: {}".format(reset_resp))
 		# clean
 		clean_resp = str(repo.git.clean("-f"))
@@ -311,10 +323,10 @@ def update(force=False, check_dev=True, message="Pushing up changes with python 
 	if force:
 		push(force=force, check_dev=check_dev, message=message, username=username, password=password, verbose=verbose)
 		__print(verbose, "Pushed any possible local changes")
-		pull(force=force, check_dev=check_dev, verbose=verbose)
+		pull(force=force, check_dev=check_dev,  username=username, password=password, verbose=verbose)
 		__print(verbose, "Pulled any possible remote changes")
 	else:
-		pull(force=force, check_dev=check_dev, verbose=verbose)
+		pull(force=force, check_dev=check_dev,  username=username, password=password, verbose=verbose)
 		__print(verbose, "Pulled any possible remote changes")
 		push(force=force, check_dev=check_dev, message=message, username=username, password=password, verbose=verbose)
 		__print(verbose, "Pushed any possible local changes")
