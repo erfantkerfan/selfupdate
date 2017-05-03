@@ -15,7 +15,7 @@ How to install
 
 This can be easily installed by using pip and running:
 
-```pip install selfupdate```
+``pip install selfupdate``
 
 How to use
 ==========
