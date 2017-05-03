@@ -10,6 +10,13 @@ A basic use case:
 
 This initial version is very light on features however should contain core functionality. No guarentees are made about the reliability of this module. Please keep in mind this is still in alpha!
 
+How to install
+==========
+
+This can be easily installed by using pip and running:
+
+```pip install selfupdate```
+
 How to use
 ==========
 
